@@ -8,28 +8,27 @@
 \usepackage{rotating}
 \usetikzlibrary{positioning}
 \usepackage{bussproofs}
+\usepackage{turnstile}
 
 \newcommand{\lnec}{\Box}
 
 \usepackage[edges]{forest}
 \usepackage{amssymb}
-\usepackage{graphicx}
+\usepackage{comment}
 
 \newcommand\mymapsto{\mathrel{\ooalign{$\rightarrow$\cr%
     \kern-.15ex\raise.275ex\hbox{\scalebox{1}[0.522]{$\mid$}}\cr}}}
+\definecolor {processblue}{cmyk}{0.96,0,0,0}
 
-\title{DM846 assignment 1}
+\title{DM846 assignment 2}
 \author{sagra16 \\(Valdemar Grange - 081097-2033) }
-\date{March 2020}
+\date{April 2020}
 
 \begin{document}
 
     \maketitle
 
     \clearpage
-
-
-    \section{}
 
     \forestset{%
         declare toks={F}{},
@@ -60,181 +59,311 @@
     \newcommand*{\necc}{\ensuremath{\mathbin{\Box}}}
     \newcommand*{\lif}{\ensuremath{\mathbin{\rightarrow}}}
     \newcommand*{\sep}{\ensuremath{\mathbin{,}}}
-    \scalebox{0.75}{
+    \newcommand*{\modd}{\ensuremath{\mathbin{\dststile{}{}}}}
+
+    \section{}
+    \subsection{}
+    $$\Box (p \rightarrow q) \land \Diamond p \rightarrow \Diamond (\neg q)$$
+    In $w_0$.\\
+    I will simplify a bit by $\land$.
+    $$\Box (p \rightarrow q), \Diamond p \rightarrow \Diamond (\neg q)$$
+    Then $\rightarrow$.
+    $$\Box (p \rightarrow q), \neg \Diamond p, \neg \Diamond \neg q$$
+    $$\Box (p \rightarrow q), \neg \Diamond p, \Box q$$
+    $$\Box (p \rightarrow q), \Box \neg p, \Box q$$
+
+
+    \begin {tikzpicture}[-latex ,auto ,node distance =4 cm and 5cm ,on grid ,
+    semithick ,
+    state/.style ={ circle ,top color =white  ,
+    draw , minimum width =1 cm}]
+        \node[state] (A) {$w_0 = \Box (p \rightarrow q), \Box \neg p, \Box q$};
+        \node[state] (B) [right =of A] {$w_1 = (p \rightarrow q), \neg p, q$};
+        \path (A) edge [bend left =25] node[above] {$$} (B);
+    \end{tikzpicture}\\
+    $p \rightarrow q$ is $\neg p, q$ which agrees with $\neg p, q$.
+    \subsection{}
+    Again i will simplify a bit by $\land$.
+    $$\Box (p \rightarrow q), \Diamond p \rightarrow \Diamond (\neg q)$$
+    \begin {tikzpicture}[-latex ,auto ,node distance =3 cm and 5cm ,on grid ,
+    semithick ,
+    state/.style ={ circle ,top color =white  ,
+    draw , minimum width =1 cm}]
+        \node[state] (A) {$w_0$};
+    \end{tikzpicture}\\
+    The model is clearly invalid since we can never use any of the transition axioms.
+    \clearpage
+
+    \section{}
+    \subsection*{a}
+    Negate.
+    $$\neg (\Diamond (p \land \neg q) \rightarrow \neg \Box (p \rightarrow q ))$$
+    In $w_0$.\\
+    $\neg\rightarrow$
+    $$\Diamond (p \land \neg q), \Box (p \rightarrow q )$$
+    \begin {tikzpicture}[-latex ,auto ,node distance =4 cm and 5cm ,on grid ,
+    semithick ,
+    state/.style ={ circle ,top color =white  ,
+    draw , minimum width =1 cm}]
+        \node[state] (A) {$w_0 = \Diamond (p \land \neg q), \Box (p \rightarrow q )$};
+        \node[state] (B) [right =of A] {$w_1 = \colorbox{red!30}{$\neg q, p \rightarrow q$}$};
+        \node[state] (C) [below =of A] {$w_2 = \colorbox{red!30}{$p, p \rightarrow q$}$};
+        \path (A) edge [bend left =25] node[above] {$$} (B);
+        \path (A) edge [bend left =25] node[above] {$$} (C);
+    \end{tikzpicture}\\
+    \subsection*{b}
+
+    \begin{align*}
+        \text{1.}\quad \neg \Diamond  (p \land \neg q) \qquad\textbf{Hyp}\\
+        \text{2.}\quad p \land \neg q \rightarrow p \qquad\textbf{Prop}\\
+        \text{3.}\quad \Box ( p \land \neg q \rightarrow p) \qquad\textbf{Nec(2)}\\
+        \text{4.}\quad \Box (p \land \neg q \rightarrow p) \rightarrow \Box (p \land \neg q) \rightarrow \Box p \qquad\textbf{K}\\
+        \text{5.}\quad \Box (p \land \neg q) \rightarrow \Box p \qquad\textbf{MP(3,4)}\\
+        \text{6.}\quad \Box p \qquad\textbf{MP(1,5)}\\
+        \text{7.}\quad p \land \neg q \rightarrow \neg q \qquad\textbf{Prop}\\
+        \text{8.}\quad \Box ( p \land \neg q \rightarrow \neg q) \qquad\textbf{Nec(7)}\\
+        \text{9.}\quad \Box (p \land \neg q \rightarrow \neg q) \rightarrow \Box (p \land \neg q) \rightarrow \Box \neg q \qquad\textbf{K}\\
+        \text{10.}\quad \Box (p \land \neg q) \rightarrow \Box \neg q \qquad\textbf{MP(8,9)}\\
+        \text{11.}\quad \Box \neg q \qquad\textbf{MP(1,5)}\\
+        \text{12.}\quad \Box p \rightarrow (\Box \neg q \rightarrow \neg \Box (p \rightarrow q)) \qquad\textbf{Prop}\\
+        \text{13.}\quad \Box \neg q \rightarrow \neg \Box (p \rightarrow q) \qquad\textbf{MP(6, 12)}\\
+        \text{14.}\quad \neg \Box (p \rightarrow q) \qquad\textbf{MP(11, 13)}\\
+    \end{align*}
+
+    \subsection*{c}
+    \scalebox{0.85} {
         \begin{forest}
-            tableaux
+        tableaux
             [
-                [s \lor p \sep q \lif r \sep (s \land r) \lif t \sep t \lif p \sep \colorbox{green!30}{$\neg (q \lif p)$}
-                [(\neg \lif)[\colorbox{green!30}{$s \lor p$} \sep q \lif r \sep (s \land r) \lif t \sep t \lif p \sep q \sep \neg p
-                    [[s \sep \colorbox{green!30}{$q \lif r$} \sep (s \land r) \lif t \sep t \lif p \sep q \sep \neg p
-                        [[s \sep \colorbox{red!40}{$\neg q$} \sep (s \land r) \lif t \sep t \lif p \sep \colorbox{red!40}{$q$} \sep \neg p]]
-                        [(\lif)[s \sep r \sep (s \land r) \lif t \sep \colorbox{green!30}{$t \lif p$} \sep q \sep \neg p
-                            [[s \sep r \sep \colorbox{green!30}{$(s \land r) \lif t$} \sep \neg t \sep q \sep \neg p
-                                [[s \sep r \sep \colorbox{green!30}{$\neg (s \land r)$} \sep \neg t \sep q \sep \neg p
-                                    [[\colorbox{red!40}{$s$} \sep r \sep \colorbox{red!40}{$\neg s$} \sep \neg t \sep q \sep \neg p]]
-                                    [(\neg \land)[s \sep \colorbox{red!40}{$r$} \sep \colorbox{red!40}{$\neg r$} \sep \neg t \sep q \sep \neg p]]
+                [w \colorbox{green!30}{$\nvdash$} \Diamond (p \land \neg q) \colorbox{green!30}{$\rightarrow$} \neg \Box (p \rightarrow q )
+                    [\neg \rightarrow [w \vdash \Diamond (p \land \neg q)\sep \colorbox{green!30}{$w \nvdash \neg \Box (p \rightarrow q )$}
+                        [\neg \neg [ \colorbox{green!30}{$w \vdash \Diamond (p \land \neg q)$} \sep w \vdash \Box (p \rightarrow q )
+                            [\Diamond [ wRw' \sep \colorbox{green!30}{$w' \vdash (p \land \neg q)$} \sep w \vdash \Box (p \rightarrow q )
+                                [\land [wRw' \sep w' \vdash p \sep \colorbox{green!30}{$w' \vdash \neg q$} \sep w \vdash \Box (p \rightarrow q )
+                                    [\neg [wRw' \sep w' \vdash p \sep w' \nvdash q \sep \colorbox{green!30}{$w \vdash \Box (p \rightarrow q )$}
+                                        [\Box [wRw' \sep w' \vdash p \sep w' \nvdash q \sep w \vdash \Box (p \rightarrow q ) \sep \colorbox{green!30}{$w' \vdash (p \rightarrow q )$}
+                                            [
+                                                [[wRw' \sep \colorbox{red!30}{$w' \vdash p$} \sep w' \nvdash q \sep w \vdash \Box (p \rightarrow q ) \sep \colorbox{red!30}{$w' \nvdash p$} ]]
+                                                [\rightarrow [wRw' \sep w' \vdash p \sep \colorbox{red!30}{$w' \nvdash q$} \sep w \vdash \Box (p \rightarrow q ) \sep \colorbox{red!30}{$w' \vdash q$}]]
+                                            ]
+                                        ]]
+                                    ]]
                                 ]]
-                                [(\lif)[s \sep r \sep \colorbox{red!40}{$t$} \sep \colorbox{red!40}{$\neg t$} \sep q \sep \neg p]]
                             ]]
-                            [(\lif)[s \sep r \sep (s \land r) \lif t \sep \colorbox{red!40}{$p$} \sep q \sep \colorbox{red!40}{$\neg p$}]]
                         ]]
                     ]]
-                    [(\land)[\colorbox{red!40}{$p$} \sep q \lif r \sep (s \lor r) \lif t \sep t \lif p \sep q \sep \colorbox{red!40}{$\neg p$}]]
-                ]]
                 ]
             ]
         \end{forest}
     }
-    \clearpage
-    \section{}
-    \subsection{$\neg \rightarrow$}
-    \begin{center}
-        \begin{forest}
-            tableaux
-            [
-                [\neg (\varphi \rightarrow \psi)
-                    [(\neg \rightarrow)[\varphi \sep \neg \psi]]
-                ]
-            ]
-        \end{forest}
-    \end{center}
-    $$\hspace*{-2cm}V \models \Gamma , \neg (\varphi \rightarrow \psi) \text{ iff } V \models \Gamma \text{ and } V \models \neg (\varphi \rightarrow \psi)$$
-    $$\hspace*{0.65cm} \text{ iff } V \models \Gamma \text{ and } \Bigg[ V \not\models \varphi \rightarrow \psi \Bigg]$$
-    $$\hspace*{0.58cm} \text{ iff } V \models \Gamma \text{ and } \Bigg[ V \not\models \neg \varphi, \psi \Bigg]$$
-    $$\hspace*{0.6cm} \text{ iff } V \models \Gamma \text{ and } \Bigg[ V \models \varphi, \neg \psi \Bigg]$$
-    $$\hspace*{3.62cm} \text{ iff } \Bigg[ V \models \Gamma \text{ and } V \models \varphi \Bigg] , \Bigg[ V \models \Gamma \text{ and } V \models \neg \psi \Bigg]$$
 
-    \subsection{$\uparrow$}
-    $V$ satisfies $\varphi \uparrow \psi$ ($V$ does not satisfy $\varphi$ or $V$ does not satisfy $\psi$):\\
-    \begin{center}
-        \begin{forest}
-            tableaux
-            [
-                [\varphi \uparrow \psi
-                [[\neg \varphi]]
-                [(\uparrow)[\neg \psi]]
-                ]
-            ]
-        \end{forest}
-    \end{center}
-    We will consider the rule $(\uparrow)$:
-    $$\hspace*{-2cm}V \models \Gamma , \varphi \uparrow \psi \text{ iff } V \models \Gamma \text{ and } V \models \varphi \uparrow \psi$$
-    $$\hspace*{2.2cm} \text{ iff } V \models \Gamma \text{ and } \Bigg[ V \not\models \varphi \text{ or } V \not\models \psi \Bigg]$$
-    $$\hspace*{2.6cm} \text{ iff } V \models \Gamma \text{ and } \Bigg[ V \models \neg \varphi \text{ or } V \models \neg \psi \Bigg]$$
-    $$\hspace*{4.42cm} \text{ iff } \Bigg[ V \models \Gamma \text{ and } V \models \neg \varphi \Bigg] \text{ or } \Bigg[ V \models \Gamma \text{ and } V \models \neg \psi \Bigg]$$
+%%    \section{}
+%%
+%%    \forestset{%
+%%        declare toks={F}{},
+%%        declare toks={T}{},
+%%        tableaux/.style={%
+%%            forked edges,
+%%            for tree={
+%%                math content,
+%%                parent anchor=children,
+%%                child anchor=parent,
+%%            },
+%%            where level=0{%
+%%                for children={no edge},
+%%                phantom,
+%%            }{%
+%%                delay={%
+%%                    content/.wrap value={{##1}},
+%%                    insert before/.wrap pgfmath arg={%
+%%                        [{##1}, no edge, math content]
+%%                    }{T()}
+%%                },
+%%                if={n_children("!u")==1}{%
+%%                    before packing={calign with current edge},
+%%                }{}
+%%            },
+%%        }
+%%    }
+%%    \newcommand*{\necc}{\ensuremath{\mathbin{\Box}}}
+%%    \newcommand*{\lif}{\ensuremath{\mathbin{\rightarrow}}}
+%%    \newcommand*{\sep}{\ensuremath{\mathbin{,}}}
+%%    \scalebox{0.75}{
+%%        \begin{forest}
+%%            tableaux
+%%            [
+%%                [s \lor p \sep q \lif r \sep (s \land r) \lif t \sep t \lif p \sep \colorbox{green!30}{$\neg (q \lif p)$}
+%%                [(\neg \lif)[\colorbox{green!30}{$s \lor p$} \sep q \lif r \sep (s \land r) \lif t \sep t \lif p \sep q \sep \neg p
+%%                    [[s \sep \colorbox{green!30}{$q \lif r$} \sep (s \land r) \lif t \sep t \lif p \sep q \sep \neg p
+%%                        [[s \sep \colorbox{red!40}{$\neg q$} \sep (s \land r) \lif t \sep t \lif p \sep \colorbox{red!40}{$q$} \sep \neg p]]
+%%                        [(\lif)[s \sep r \sep (s \land r) \lif t \sep \colorbox{green!30}{$t \lif p$} \sep q \sep \neg p
+%%                            [[s \sep r \sep \colorbox{green!30}{$(s \land r) \lif t$} \sep \neg t \sep q \sep \neg p
+%%                                [[s \sep r \sep \colorbox{green!30}{$\neg (s \land r)$} \sep \neg t \sep q \sep \neg p
+%%                                    [[\colorbox{red!40}{$s$} \sep r \sep \colorbox{red!40}{$\neg s$} \sep \neg t \sep q \sep \neg p]]
+%%                                    [(\neg \land)[s \sep \colorbox{red!40}{$r$} \sep \colorbox{red!40}{$\neg r$} \sep \neg t \sep q \sep \neg p]]
+%%                                ]]
+%%                                [(\lif)[s \sep r \sep \colorbox{red!40}{$t$} \sep \colorbox{red!40}{$\neg t$} \sep q \sep \neg p]]
+%%                            ]]
+%%                            [(\lif)[s \sep r \sep (s \land r) \lif t \sep \colorbox{red!40}{$p$} \sep q \sep \colorbox{red!40}{$\neg p$}]]
+%%                        ]]
+%%                    ]]
+%%                    [(\land)[\colorbox{red!40}{$p$} \sep q \lif r \sep (s \lor r) \lif t \sep t \lif p \sep q \sep \colorbox{red!40}{$\neg p$}]]
+%%                ]]
+%%                ]
+%%            ]
+%%        \end{forest}
+%%    }
+%%    \clearpage
+%%    \section{}
+%%    \subsection{$\neg \rightarrow$}
+%%    \begin{center}
+%%        \begin{forest}
+%%            tableaux
+%%            [
+%%                [\neg (\varphi \rightarrow \psi)
+%%                    [(\neg \rightarrow)[\varphi \sep \neg \psi]]
+%%                ]
+%%            ]
+%%        \end{forest}
+%%    \end{center}
+%%    $$\hspace*{-2cm}V \models \Gamma , \neg (\varphi \rightarrow \psi) \text{ iff } V \models \Gamma \text{ and } V \models \neg (\varphi \rightarrow \psi)$$
+%%    $$\hspace*{0.65cm} \text{ iff } V \models \Gamma \text{ and } \Bigg[ V \not\models \varphi \rightarrow \psi \Bigg]$$
+%%    $$\hspace*{0.58cm} \text{ iff } V \models \Gamma \text{ and } \Bigg[ V \not\models \neg \varphi, \psi \Bigg]$$
+%%    $$\hspace*{0.6cm} \text{ iff } V \models \Gamma \text{ and } \Bigg[ V \models \varphi, \neg \psi \Bigg]$$
+%%    $$\hspace*{3.62cm} \text{ iff } \Bigg[ V \models \Gamma \text{ and } V \models \varphi \Bigg] , \Bigg[ V \models \Gamma \text{ and } V \models \neg \psi \Bigg]$$
+%%
+%%    \subsection{$\uparrow$}
+%%    $V$ satisfies $\varphi \uparrow \psi$ ($V$ does not satisfy $\varphi$ or $V$ does not satisfy $\psi$):\\
+%%    \begin{center}
+%%        \begin{forest}
+%%            tableaux
+%%            [
+%%                [\varphi \uparrow \psi
+%%                [[\neg \varphi]]
+%%                [(\uparrow)[\neg \psi]]
+%%                ]
+%%            ]
+%%        \end{forest}
+%%    \end{center}
+%%    We will consider the rule $(\uparrow)$:
+%%    $$\hspace*{-2cm}V \models \Gamma , \varphi \uparrow \psi \text{ iff } V \models \Gamma \text{ and } V \models \varphi \uparrow \psi$$
+%%    $$\hspace*{2.2cm} \text{ iff } V \models \Gamma \text{ and } \Bigg[ V \not\models \varphi \text{ or } V \not\models \psi \Bigg]$$
+%%    $$\hspace*{2.6cm} \text{ iff } V \models \Gamma \text{ and } \Bigg[ V \models \neg \varphi \text{ or } V \models \neg \psi \Bigg]$$
+%%    $$\hspace*{4.42cm} \text{ iff } \Bigg[ V \models \Gamma \text{ and } V \models \neg \varphi \Bigg] \text{ or } \Bigg[ V \models \Gamma \text{ and } V \models \neg \psi \Bigg]$$
+%%
+%%    \noindent First we establish that $V \models \Gamma$ and $\varphi \uparrow \psi$.
+%%    Then we "unpack" the expression $\varphi \uparrow \psi$ and simplify the not-models by negating the right hand side expression.
+%%    Finally we apply the distributivity law; $a \land (b \lor c) = (a \land b) \lor (a \land c)$.
+%%
+%%    \newpage
+%%
+%%    \section{}
+%%    \begin{sidewaysfigure}
+%%        \begin{prooftree}
+%%            \def\fCenter{\mbox{\ $\Rightarrow$\ }}
+%%            \newcommand{\and}{\wedge}
+%%            \newcommand{\seq}{\Rightarrow}
+%%
+%%            \AxiomC{$$}
+%%            \RightLabel{$Ax$}
+%%            \UnaryInfC{$p \rightarrow q, q \rightarrow p, p \vdash p$}
+%%
+%%            \AxiomC{$$}
+%%            \RightLabel{$Ax$}
+%%            \UnaryInfC{$p \rightarrow q, q \vdash p, q$}
+%%
+%%            \AxiomC{$$}
+%%            \RightLabel{$Ax$}
+%%            \UnaryInfC{$p \rightarrow q, p, q \vdash p$}
+%%
+%%            \RightLabel{$Ax$}
+%%            \BinaryInfC{$p \rightarrow q, q \rightarrow p, q \vdash p$}
+%%
+%%            \RightLabel{$\lor L$}
+%%            \BinaryInfC{$p \rightarrow q, q \rightarrow p, p \lor q \vdash p$}
+%%
+%%            \AxiomC{$$}
+%%            \RightLabel{$Ax$}
+%%            \UnaryInfC{$q \rightarrow p, p \vdash q, p$}
+%%
+%%            \AxiomC{$$}
+%%            \RightLabel{$Ax$}
+%%            \UnaryInfC{$q, q \rightarrow p, p \vdash q$}
+%%
+%%            \RightLabel{$\rightarrow L$}
+%%            \BinaryInfC{$p \rightarrow q, q \rightarrow p, p \vdash q$}
+%%
+%%            \AxiomC{$$}
+%%            \RightLabel{$Ax$}
+%%            \UnaryInfC{$p \rightarrow q, q \rightarrow p, q \vdash q$}
+%%
+%%            \RightLabel{$\lor L$}
+%%            \BinaryInfC{$p \rightarrow q, q \rightarrow p, p \lor q \vdash q$}
+%%
+%%            \RightLabel{$\land R$}
+%%            \BinaryInfC{$p \rightarrow q, q \rightarrow p, p \lor q \vdash p \land q$}
+%%        \end{prooftree}
+%%    \end{sidewaysfigure}
+%%
+%%    \newpage
+%%    \section{}
+%%    \subsection{$\land R$}
+%%    We consider the rule $\land R$.
+%%    The rule must satisfy both $\Gamma \vdash \Delta, \varphi$ and $\Gamma \vdash \Delta, \psi$.
+%%    Let $V$ be a valuation; then either:
+%%    \begin{enumerate}
+%%        \item 1a $V \not\models \gamma$ for some $\gamma \in \Gamma$
+%%        \item or
+%%        \item 1b $V \models \delta$ for some $\delta \in \Delta, \varphi$
+%%        \item and
+%%        \item 2a $V \not\models \gamma$ for some $\gamma \in \Gamma$
+%%        \item or
+%%        \item 2b $V \models \delta$ for some $\delta \in \Delta, \psi$
+%%    \end{enumerate}
+%%    Trivially either $\delta \in \Delta, \varphi$ and $\gamma \in \Gamma$ or $\delta \in \Delta, \psi$ and $\gamma \in \Gamma$.
+%%    \subsection{$\land L_2$}
+%%    It follows that $Ax$ applies here for $\varphi$.
+%%
+%%    \section{}
+%%    We want to show that that $\{p \rightarrow q, q \rightarrow p, p \rightarrow \neg q, q\}$ results in $\top$.
+%%    We reduce by lemma $7$:
+%%    $$p \rightarrow q \mymapsto \neg p \lor q$$
+%%    $$q \rightarrow p \mymapsto \neg q \lor p$$
+%%    $$p \rightarrow \neg q \mymapsto \neg p \lor \neg q$$
+%%
+%%    \begin{forest}
+%%        for tree={
+%%            grow'=90,
+%%            parent anchor=north,
+%%            math content,
+%%            before typesetting nodes={
+%%                if level=0{}{
+%%                    if content={}{
+%%                        shape=coordinate
+%%                    }{
+%%                        content/.wrap value={#1},
+%%                    },
+%%                },
+%%            }
+%%        }
+%%        [\bot
+%%        [{\neg q}
+%%            [{\neg p}
+%%                [\neg p \lor q]
+%%                [\neg p \lor \neg q]
+%%            ]
+%%            [{}
+%%                [\neg q \lor p]
+%%            ]
+%%        ]
+%%        [
+%%            [
+%%                [q]
+%%            ]
+%%        ]
+%%        ]
+%%    \end{forest}
 
-    \noindent First we establish that $V \models \Gamma$ and $\varphi \uparrow \psi$.
-    Then we "unpack" the expression $\varphi \uparrow \psi$ and simplify the not-models by negating the right hand side expression.
-    Finally we apply the distributivity law; $a \land (b \lor c) = (a \land b) \lor (a \land c)$.
-
-    \newpage
-
-    \section{}
-    \begin{sidewaysfigure}
-        \begin{prooftree}
-            \def\fCenter{\mbox{\ $\Rightarrow$\ }}
-            \newcommand{\and}{\wedge}
-            \newcommand{\seq}{\Rightarrow}
-
-            \AxiomC{$$}
-            \RightLabel{$Ax$}
-            \UnaryInfC{$p \rightarrow q, q \rightarrow p, p \vdash p$}
-
-            \AxiomC{$$}
-            \RightLabel{$Ax$}
-            \UnaryInfC{$p \rightarrow q, q \vdash p, q$}
-
-            \AxiomC{$$}
-            \RightLabel{$Ax$}
-            \UnaryInfC{$p \rightarrow q, p, q \vdash p$}
-
-            \RightLabel{$Ax$}
-            \BinaryInfC{$p \rightarrow q, q \rightarrow p, q \vdash p$}
-
-            \RightLabel{$\lor L$}
-            \BinaryInfC{$p \rightarrow q, q \rightarrow p, p \lor q \vdash p$}
-
-            \AxiomC{$$}
-            \RightLabel{$Ax$}
-            \UnaryInfC{$q \rightarrow p, p \vdash q, p$}
-
-            \AxiomC{$$}
-            \RightLabel{$Ax$}
-            \UnaryInfC{$q, q \rightarrow p, p \vdash q$}
-
-            \RightLabel{$\rightarrow L$}
-            \BinaryInfC{$p \rightarrow q, q \rightarrow p, p \vdash q$}
-
-            \AxiomC{$$}
-            \RightLabel{$Ax$}
-            \UnaryInfC{$p \rightarrow q, q \rightarrow p, q \vdash q$}
-
-            \RightLabel{$\lor L$}
-            \BinaryInfC{$p \rightarrow q, q \rightarrow p, p \lor q \vdash q$}
-
-            \RightLabel{$\land R$}
-            \BinaryInfC{$p \rightarrow q, q \rightarrow p, p \lor q \vdash p \land q$}
-        \end{prooftree}
-    \end{sidewaysfigure}
-
-    \newpage
-    \section{}
-    \subsection{$\land R$}
-    We consider the rule $\land R$.
-    The rule must satisfy both $\Gamma \vdash \Delta, \varphi$ and $\Gamma \vdash \Delta, \psi$.
-    Let $V$ be a valuation; then either:
-    \begin{enumerate}
-        \item 1a $V \not\models \gamma$ for some $\gamma \in \Gamma$
-        \item or
-        \item 1b $V \models \delta$ for some $\delta \in \Delta, \varphi$
-        \item and
-        \item 2a $V \not\models \gamma$ for some $\gamma \in \Gamma$
-        \item or
-        \item 2b $V \models \delta$ for some $\delta \in \Delta, \psi$
-    \end{enumerate}
-    Trivially either $\delta \in \Delta, \varphi$ and $\gamma \in \Gamma$ or $\delta \in \Delta, \psi$ and $\gamma \in \Gamma$.
-    \subsection{$\land L_2$}
-    It follows that $Ax$ applies here for $\varphi$.
-
-    \section{}
-    We want to show that that $\{p \rightarrow q, q \rightarrow p, p \rightarrow \neg q, q\}$ results in $\top$.
-    We reduce by lemma $7$:
-    $$p \rightarrow q \mymapsto \neg p \lor q$$
-    $$q \rightarrow p \mymapsto \neg q \lor p$$
-    $$p \rightarrow \neg q \mymapsto \neg p \lor \neg q$$
-
-    \begin{forest}
-        for tree={
-            grow'=90,
-            parent anchor=north,
-            math content,
-            before typesetting nodes={
-                if level=0{}{
-                    if content={}{
-                        shape=coordinate
-                    }{
-                        content/.wrap value={#1},
-                    },
-                },
-            }
-        }
-        [\bot
-        [{\neg q}
-            [{\neg p}
-                [\neg p \lor q]
-                [\neg p \lor \neg q]
-            ]
-            [{}
-                [\neg q \lor p]
-            ]
-        ]
-        [
-            [
-                [q]
-            ]
-        ]
-        ]
-    \end{forest}
 
 
 
