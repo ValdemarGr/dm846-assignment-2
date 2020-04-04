@@ -10,6 +10,7 @@
 \usepackage{bussproofs}
 \usepackage{turnstile}
 
+\usepackage{cancel}
 \newcommand{\lnec}{\Box}
 
 \usepackage[edges]{forest}
@@ -113,22 +114,28 @@
     \end{tikzpicture}\\
     \subsection*{b}
 
-    \begin{align*}
-        \text{1.}\quad \neg \Diamond  (p \land \neg q) \qquad\textbf{Hyp}\\
-        \text{2.}\quad p \land \neg q \rightarrow p \qquad\textbf{Prop}\\
-        \text{3.}\quad \Box ( p \land \neg q \rightarrow p) \qquad\textbf{Nec(2)}\\
-        \text{4.}\quad \Box (p \land \neg q \rightarrow p) \rightarrow \Box (p \land \neg q) \rightarrow \Box p \qquad\textbf{K}\\
-        \text{5.}\quad \Box (p \land \neg q) \rightarrow \Box p \qquad\textbf{MP(3,4)}\\
-        \text{6.}\quad \Box p \qquad\textbf{MP(1,5)}\\
-        \text{7.}\quad p \land \neg q \rightarrow \neg q \qquad\textbf{Prop}\\
-        \text{8.}\quad \Box ( p \land \neg q \rightarrow \neg q) \qquad\textbf{Nec(7)}\\
-        \text{9.}\quad \Box (p \land \neg q \rightarrow \neg q) \rightarrow \Box (p \land \neg q) \rightarrow \Box \neg q \qquad\textbf{K}\\
-        \text{10.}\quad \Box (p \land \neg q) \rightarrow \Box \neg q \qquad\textbf{MP(8,9)}\\
-        \text{11.}\quad \Box \neg q \qquad\textbf{MP(1,5)}\\
-        \text{12.}\quad \Box p \rightarrow (\Box \neg q \rightarrow \neg \Box (p \rightarrow q)) \qquad\textbf{Prop}\\
-        \text{13.}\quad \Box \neg q \rightarrow \neg \Box (p \rightarrow q) \qquad\textbf{MP(6, 12)}\\
-        \text{14.}\quad \neg \Box (p \rightarrow q) \qquad\textbf{MP(11, 13)}\\
-    \end{align*}
+    {\setlength{\tabcolsep}{2em}
+        \begin{tabular}{ c c c }
+            1. & $\Diamond  (p \land \neg q)$ & \textbf{Hyp} \\
+            2. & $\Box \neg  (p \land \neg q)$ & \textbf{Prop} \\
+            3. & $\Box (\neg p \land q)$ & \textbf{Prop} \\
+            4. & $\neg p \land q \rightarrow \neg p$ & \textbf{Prop} \\
+            5. & $\Box (\neg p \land q \rightarrow \neg p) $ & \textbf{Nec(4)} \\
+            6. & $\Box (\neg p \land q \rightarrow \neg p) \rightarrow (\Box (\neg p \land q) \rightarrow \Box (\neg p) )$ & \textbf{K} \\
+            7. & $\Box (\neg p \land q) \rightarrow \Box (\neg p)$ & \textbf{MP(5,6)} \\
+            8. & $\Box \neg ( p \land \neg q) \rightarrow \Box (\neg p)$ & \textbf{Prop} \\
+            9. & $\Box \neg p$ & \textbf{MP(2,8)} \\
+            10. & $\neg p \land q \rightarrow q $ & \textbf{Prop} \\
+            11. & $\Box (\neg p \land q \rightarrow q) $ & \textbf{Nec(10)} \\
+            12. & $\Box (\neg p \land q \rightarrow q) \rightarrow (\Box (\neg p \land q) \rightarrow \Box q )$ & \textbf{K} \\
+            13. & $\Box (\neg p \land q) \rightarrow \Box q$ & \textbf{MP(11,12)} \\
+            14. & $\Box \neg ( p \land \neg q) \rightarrow \Box q$ & \textbf{Prop} \\
+            15. & $\Box q$ & \textbf{MP(2,14)} \\
+            16. & $\neg \Box \neg p\rightarrow (\neg \Box q \rightarrow \neg \Box (p \rightarrow q) )$ & \textbf{Prop} \\
+            17. & $(\neg \Box p\rightarrow \neg \Box q) \rightarrow \neg \Box (p \rightarrow q)$ & \textbf{Prop} \\
+        \end{tabular}
+    }
+%Completeness proof = contradiction, if not reflexive then it doesnt satisfy wRw' w'Rw
 
     \subsection*{c}
     \scalebox{0.85} {
@@ -156,6 +163,51 @@
             ]
         \end{forest}
     }
+
+    \clearpage
+    \section{}
+    $$\Diamond \Box \varphi \rightarrow \varphi$$
+    \subsection*{a}
+    $\mathcal{F} \models B'$\\
+    Axiom $B$ is $\varphi \rightarrow \Box \Diamond \varphi$.\\
+    By material implication $\varphi \rightarrow \Box \Diamond \varphi \Leftrightarrow \neg \varphi \lor \Box \Diamond \varphi$.\\
+    Which also goes the other way $\Box \Diamond \varphi \lor \neg \varphi \Leftrightarrow \neg \Box \Diamond \varphi \rightarrow \neg \varphi$.\\
+    Applying the duality axioms $\Diamond \neg \Diamond \varphi \rightarrow \neg \varphi$ and again $\Diamond \Box \neg \varphi \rightarrow \neg \varphi$\\
+    It follows from \textbf{Theorem 1} that $\mathcal{F} \models \Diamond \Box \varphi \rightarrow \varphi$.
+
+    \subsection*{b}
+    The class of symmetric frames is complete for B'.\\
+    Let $(W, R)$ be a frame that is not \textit{symmetric}, such that $w, w' \in W$ such that $wRw'$ and $w'\cancel{R}w$.
+    If we consider $w'$ for $\Diamond \Box \varphi \rightarrow \varphi$ such that $V \Vdash_{w'} \Box \varphi$ and $V \nVdash_w \varphi$, then $V \nVdash_{w'} \Box \varphi \rightarrow \varphi$.
+
+    \subsection*{c}
+    \begin{centering}
+        \begin{forest}
+        tableaux
+            [
+                [\Gamma \sep w \Vdash \Diamond \Box \varphi
+                    [\Diamond \Box [ wRw' \sep w'Rw \sep w \Vdash \varphi ]]
+                ]
+            ]
+        \end{forest}
+    \end{centering}\\
+    Following from.\\\\
+    \begin{centering}
+        \begin{forest}
+        tableaux
+        [
+            [w \Vdash \Diamond \Box \varphi
+                [\Diamond [ wRw' \sep w' \Vdash \Box \varphi
+                    [\Box[ wRw' \sep w'Rw'' \sep w'' \Vdash \varphi \sep w' \Vdash \Box \varphi ]]
+                ]]
+            ]
+        ]
+        \end{forest}
+    \end{centering}\\
+    Since we are working in the class of symmetric frames it can be that.
+    $$wRw', w'Rw'' \leftrightarrow wRw', w'Rw$$
+
+    \subsection*{d}
 
 %%    \section{}
 %%
