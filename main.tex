@@ -84,15 +84,13 @@
     \end{tikzpicture}\\
     $p \rightarrow q$ is $\neg p, q$ which agrees with $\neg p, q$.
     \subsection{}
-    Again i will simplify a bit by $\land$.
-    $$\Box (p \rightarrow q), \Diamond p \rightarrow \Diamond (\neg q)$$
     \begin {tikzpicture}[-latex ,auto ,node distance =3 cm and 5cm ,on grid ,
     semithick ,
     state/.style ={ circle ,top color =white  ,
     draw , minimum width =1 cm}]
         \node[state] (A) {$w_0$};
     \end{tikzpicture}\\
-    The model is clearly invalid since we can never use any of the transition axioms.
+    The model is clearly invalid since $V \Vdash_{w_0} \varphi$ for every $V$ over $F$ does not hold.
     \clearpage
 
     \section{}
